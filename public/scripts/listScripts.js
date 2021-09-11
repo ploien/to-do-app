@@ -1,21 +1,23 @@
-function addTask() {
-    
-    newTaskBody = document.getElementById('newTask');
-    taskText = newTaskBody.value;
-    taskList = document.getElementById('to_do_list');
 
-    let newLi = document.createElement('li');
-    let newDiv = document.createElement('div')
-    let newText = document.createElement('output');
 
-    newText.setAttribute('type', 'text');
-    newText.value = taskText;
+/************************************************** 
+* This function gets a task from the new 
+* task user input, and adds it to the 'to_do_list'. 
+***************************************************/
 
-    newDiv.appendChild(newText);
-    newLi.appendChild(newDiv)
-    taskList.appendChild(newLi);
+function showComplete() {
+   let hiddenElements =  document.getElementsByClassName("hidden");
 
-    newTaskBody.value = '';
-
-    console.log("Function Complete");
+    for (i=0; i < hiddenElements.length; i++) {
+        hiddenElements[i].style.display = "block";
+    }
 }
+
+function hideComplete() {
+    let hiddenElements =  document.getElementsByClassName("hidden");
+ 
+     for (i=0; i < hiddenElements.length; i++) {
+         hiddenElements[i].style.display = "none";
+     }
+ }
+

@@ -1,0 +1,4 @@
+Step 1: Create page that contains to-do list.
+Step 2: Create route to list page.
+Step 3: Create button to add task to list
+Step 4: 
