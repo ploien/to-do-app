@@ -1,89 +1,112 @@
 <%- include('./includes/head.ejs') %>
 
     <body>
-        <% if (tasks.length <=0 ) { %>
+
+        <!--List of incomplete tasks. Displayed on page load-->
+        <% if (incompleteTasks.length <=0 ) { %>
             <h3>Empty List</h3>
             <% } %>
-                <ul name="to_do_list" id="to_do_list">
-                    <li>
-                        <div class="task_item_headers row_align">
-                            <div>
-                                <h3>Task</h3>
-                            </div>
-                            <div>
-                                <h3>Date Created</h3>
-                            </div>
-                            <div>
-                                <h3>Mark complete</h3>
-                            </div>
-                        </div>
-                    </li>
-                    <% tasks.forEach(task=> { %>
-                        <% if(!task.complete) { %>
-                            <li>
-                                <div class='task_item_row row_align'>
-                                    <div class="task_body_text">
-                                        <%= task.taskBody %>
-                                    </div>
-                                    <div class="task_creation_date">
-                                        <date>
-                                            <%= task.creationDate %>
-                                        </date>
-                                    </div>
-                                    <div class="task_complete">
-                                        <form action="completeTask" name="complete_task" id="complete_task"
-                                            method="POST">
-                                            <input type="hidden" name="taskId" value="<%= task.id %>">
-                                            <button type="submit" name="complete_check">Completed</button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </li>
-                            <% } %>
-                                <% }) %>
-                </ul>
-
-                <div name="to_do_list_complete" id="to_do_list_complete" class="hidden">
-                    <label for="to_do_list_complete">
-                        <h3>Completed Tasks</h3>
-                    </label>
-                    <ul>
+                <div>
+                    <ul name="to_do_list" id="to_do_list">
                         <li>
-                            <div class="task_item_headers row_align">
-                                <div>
-                                    <h3>Task</h3>
-                                </div>
-                                <div>
-                                    <h3>Date Completed</h3>
-                                </div>
-                            </div>
-                        </li>
-                        <% tasks.forEach(task=> { %>
-                            <% if(task.complete) { %>
+                            <ul class="list_row">
                                 <li>
-                                    <div class='task_item_row row_align'>
-                                        <div class="task_body_text">
+                                    <h3>Task</h3>
+                                </li>
+
+                                <li>
+                                    <h3>Date Created</h3>
+                                </li>
+
+                                <li>
+                                    <h3>Mark complete</h3>
+                                </li>
+                            </ul>
+                        </li>
+                        <% incompleteTasks.forEach(task=> { %>
+                            <% if(!task.complete) { %>
+                                <li>
+                                    <ul class="list_row">
+                                        <li>
                                             <%= task.taskBody %>
-                                        </div>
-                                        <div class="task_completion_date">
-                                            <date>
-                                                <%= task.completionDate %>
-                                            </date>
-                                        </div>
-                                    </div>
+                                        </li>
+                                        <li>
+                                            <%= task.creationDate %>
+                                        </li>
+                                        <li>
+                                            <form action="completeTask" name="complete_task" id="complete_task"
+                                                method="POST">
+                                                <input type="hidden" name="taskId" value="<%= task.id %>">
+                                                <button type="submit" name="complete_check">Completed</button>
+                                            </form>
+                                        </li>
+                                    </ul>
                                 </li>
                                 <% } %>
                                     <% }) %>
                     </ul>
                 </div>
 
-                <button type="button" name="show_complete_tasks" id="show_complete_tasks" onclick="showComplete()">Show
-                    Completed Tasks</button>
+                <!--List of completed task. Hidden on page load. Displayed/hidden on button push-->
+                <div name="to_do_list_complete" id="to_do_list_complete" class="hidden">
+                    <label for="to_do_list_complete">
+                        <h3>Completed Tasks</h3>
+                    </label>
+                    <ul>
+                        <li>
+                            <ul class="list_row">
+                                <li>
+                                    <h3>Task</h3>
+                                </li>
+                                <li>
+                                    <h3>Date Completed</h3>
+                                </li>
+                            </ul>
+                        </li>
+                        <% completeTasks.forEach(task=> { %>
+                            <% if(task.complete) { %>
+                                <li>
+                                    <ul class="list_row">
+                                        <li>
+                                            <%= task.taskBody %>
+                                        </li>
+                                        <li>
+                                            <%= task.completionDate %>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <% } %>
+                                    <% }) %>
+                    </ul>
+                </div>
 
-                <button type="button" name="hide_complete_tasks" id="hide_complete_tasks" onclick="hideComplete()"
-                    class="hidden">Hide</button>
+                <!--Buttons to display/hide list of completed tasks-->
 
-                <form name='add_task' id='add_task' action='addTask' method="POST">
+                <div class="list_row">
+                    <div>
+                        <label for="start_date">Start Date</label>
+                        <input type="date" name="start_date">
+                    </div>
+
+                    <div>
+                        <label for="end_date">End Date</label>
+                        <input type="date" name="end_date">
+                    </div>
+
+                    <div>
+                        <button type="button" name="show_complete_tasks" id="show_complete_tasks"
+                            onclick="showComplete()">Show
+                            Completed Tasks</button>
+                    </div>
+
+                    <div>
+                        <button type="button" name="hide_complete_tasks" id="hide_complete_tasks"
+                            onclick="hideComplete()" class="hidden">Hide</button>
+                    </div>
+                </div>
+
+                <!--Add a new task to the list of incomplete tasks-->
+                <form class="flex_row" name='add_task' id='add_task' action='addTask' method="POST">
                     <label for="new_task" name="new_task_label" id="new_task_label">Add Task</label>
                     <input type="text" name="new_task" id="new_task">
 
