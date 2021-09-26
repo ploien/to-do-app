@@ -47,9 +47,36 @@
                     </ul>
                 </div>
 
+                
+                <form class="date_select" action="customDate">
+                    <h4>Show Tasks for Date Range: </h4>
+                    <div>
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" name="start_date">
+                    </div>
+                    <div>
+                        <label for="end_date">End Date:</label>
+                        <input type="date" name="end_date">
+                    </div>
+
+                </form>
+
+                <!--Buttons to display/hide list of completed tasks-->
+                <div class="list_row">
+                    <div>
+                        <button type="button" name="show_complete_tasks" id="show_complete_tasks"
+                            onclick="showComplete()">Show
+                            Completed Tasks</button>
+                    </div>
+                    <div>
+                        <button type="button" name="hide_complete_tasks" id="hide_complete_tasks"
+                            onclick="hideComplete()" class="hidden">Hide</button>
+                    </div>
+                </div>
+
                 <!--List of completed task. Hidden on page load. Displayed/hidden on button push-->
                 <div name="to_do_list_complete" id="to_do_list_complete" class="hidden">
-                    <label for="to_do_list_complete">
+                    <label for="to_do_list_complete" class="list_row">
                         <h3>Completed Tasks</h3>
                     </label>
                     <ul>
@@ -80,33 +107,8 @@
                     </ul>
                 </div>
 
-                <!--Buttons to display/hide list of completed tasks-->
-
-                <div class="list_row">
-                    <div>
-                        <label for="start_date">Start Date</label>
-                        <input type="date" name="start_date">
-                    </div>
-
-                    <div>
-                        <label for="end_date">End Date</label>
-                        <input type="date" name="end_date">
-                    </div>
-
-                    <div>
-                        <button type="button" name="show_complete_tasks" id="show_complete_tasks"
-                            onclick="showComplete()">Show
-                            Completed Tasks</button>
-                    </div>
-
-                    <div>
-                        <button type="button" name="hide_complete_tasks" id="hide_complete_tasks"
-                            onclick="hideComplete()" class="hidden">Hide</button>
-                    </div>
-                </div>
-
                 <!--Add a new task to the list of incomplete tasks-->
-                <form class="flex_row" name='add_task' id='add_task' action='addTask' method="POST">
+                <form class="add_task" name='add_task' id='add_task' action='addTask' method="POST">
                     <label for="new_task" name="new_task_label" id="new_task_label">Add Task</label>
                     <input type="text" name="new_task" id="new_task">
 

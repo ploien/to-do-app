@@ -1,4 +1,25 @@
-Step 1: Create page that contains to-do list.
-Step 2: Create route to list page.
-Step 3: Create button to add task to list
-Step 4: 
+App Description: A To-Do list web-app that allows users to create custom to-do lists
+MVP Requirements:
+    Pages:
+        Login Page: 
+        Sign up page:
+        Task List Page:
+            -Default page shows tasks created in the last month
+            -Option to show 1 week, 1 month, 1 year, or a custom date range
+            Task List: 
+                Incomplete Tasks:
+                    - Task Description
+                    - Date created
+                    - Task completed button
+                    - Delete Task button
+                    - Edit Task button 
+                Complete Tasks:
+                    - Task Description
+                    - Date created
+                    - Date Completed
+        Error Page(s):
+
+Additional Features (time permitting):
+    - Ability to add a sublist to any task (nest task lists)
+    - Ability to create multiple lists with a list Title 
+        - A page that lists the lists

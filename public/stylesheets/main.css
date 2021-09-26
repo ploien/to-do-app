@@ -29,3 +29,15 @@ li > * {
 .hidden {
     display: none;
 }
+
+
+.add_task {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content:center;
+    margin: 10px 10px 10px 4px;
+}
+
+.date_select {
+    display: inline;
+}
