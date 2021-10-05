@@ -32,16 +32,20 @@ exports.getList = (req, res, next) => {
         .catch(err => console.log(err))
 }
 
-exports.addTask = (req, res, next) => {
-    Task.create({ taskBody: req.body.new_task, creationDate: Date.now(), complete: false })
-        .then(result => {
-            res.redirect('/');
-        })
-        .catch(err => { console.log(err) })
+exports.addTask = (req, res, next ) => {
+    console.log(req.body.taskBody);
+    const taskBody = req.body.taskBody
+    return Task.create({ taskBody: taskBody, creationDate: Date.now(), complete: false })
+    .then(newTask => {
+        //console.log(newTask);
+        const jsonNewTask = JSON.stringify(newTask);
+        res.json(jsonNewTask)
+    })    
+    .catch(err => { console.log(err) })
 };
 
 exports.completeTask = (req, res, next) => {
-    taskId = req.body.taskId;
+    let taskId = req.body.taskId;
     Task.update({ complete: true, completionDate: Date.now() }, { where: { id: taskId } })
         .then(result => {
             res.redirect('/')

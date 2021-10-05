@@ -39,5 +39,5 @@ li > * {
 }
 
 .date_select {
-    display: inline;
+    display: inline flex;
 }
