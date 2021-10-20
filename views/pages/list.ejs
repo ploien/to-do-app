@@ -3,49 +3,7 @@
     <body>
 
         <!--List of incomplete tasks. Displayed on page load-->
-        <div>
-            <ul name="to_do_list" id="to_do_list">
-                <li>
-                    <ul class="list_row">
-                        <li>
-                            <h3>Task</h3>
-                        </li>
-
-                        <li>
-                            <h3>Date Created</h3>
-                        </li>
-
-                        <li>
-                            <h3>Mark complete</h3>
-                        </li>
-                    </ul>
-                </li>
-                <% if (incompleteTasks.length> 0 ) { %>
-                    <% incompleteTasks.forEach(task=> { %>
-                        <% if(!task.complete) { %>
-                            <li>
-                                <ul class="list_row">
-                                    <li>
-                                        <%= task.taskBody %>
-                                    </li>
-                                    <li>
-                                        <%= task.creationDate %>
-                                    </li>
-                                    <li>
-                                        <form action="completeTask" name="complete_task" id="complete_task"
-                                            method="POST">
-                                            <input type="hidden" name="taskId" value="<%= task.id %>">
-                                            <button type="submit" name="complete_check">Completed</button>
-                                        </form>
-                                    </li>
-                                </ul>
-                            </li>
-                            <% } %>
-                                <% }) %>
-                                    <% } %>
-            </ul>
-        </div>
-
+        <%- include('./includes/incompleteList.ejs') %>
 
         <form class="date_select" action="customDate">
             <h4>Show Tasks for Date Range: </h4>

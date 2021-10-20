@@ -30,6 +30,9 @@ li > * {
     display: none;
 }
 
+.hide {
+    display: none;
+}
 
 .add_task {
     display: flex;

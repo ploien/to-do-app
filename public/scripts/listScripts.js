@@ -32,25 +32,50 @@ async function addNewTask() {
         body: taskBody
     }
     let response = await fetch('/addTask', options);
-    //console.log(response);
 
     let json = await response.json();
     let parsedJson = JSON.parse(json);
     console.log(parsedJson);
-
     addNewTaskToList(parsedJson);
 }
 
-function addNewTaskToList(taskJson) {
-    const htmlString = "<ul class=\"list_row\"><li>" + taskJson.taskBody + "</li>" +
-        "<li>" + taskJson.creationDate + "</li><li><form action=\"completeTask\"name=\"complete_task\" id=\"complete_task\" method=\"POST\">" +
-        "<input type=\"hidden\" name=\"taskId\" value=\"" + taskJson.id + "\"> <button type=\"submit\" name=\"complete_check\">Completed</button></form></li></ul>";
+function addNewTaskToList(task) {
+    const htmlString = "<ul class=\"list_row\" id=\"" + task.id + "\"><li>" + task.taskBody + "</li>"
+    + "<li>" + task.creationDate + "</li>"
+     + "<li><form action=\"completeTask\" name=\"complete_task\" id=\"complete_task\" method=\"POST\"><input type=\"hidden\" name=\"taskId\" value=\"" + task.id +"\">"
+    + "<button type=\"submit\" name=\"complete_check\">Completed</button></form></li>"
+    + "<li><button name=\"delete_task_incomplete\" id=\"delete_task_incomplete\" onclick=\"deleteTask()\">Delete</button></li>"
+    + "<li class=\"hide\"><input type=\"hidden\" name=\"taskId\" id=\"taskId\" value=\"" + task.id + "\"></li>"
+    + "</ul>";
 
+    console.log(task.creationDate);
     let incompleteTaskList = document.getElementById("to_do_list");
 
     let listItem = document.createElement("li");
+    listItem.id = task.id + "outer"
     listItem.innerHTML = htmlString;
 
     incompleteTaskList.appendChild(listItem);
 
+}
+
+async function deleteTask() {
+    const taskId = JSON.stringify({taskId: document.getElementById("taskId").value});
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: taskId
+    }
+
+    let response = await fetch('/deleteTask', options);
+
+
+    //if(response.status == 200)
+}
+
+async function removeFromIncompleteList(taskId) {
+    let list = await document.getElementById()
 }

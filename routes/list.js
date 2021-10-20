@@ -14,4 +14,6 @@ router.post('/addTask', listController.addTask);
 
 router.post('/completeTask', listController.completeTask);
 
+router.post('/deleteTask', listController.deleteTask);
+
 module.exports = router;

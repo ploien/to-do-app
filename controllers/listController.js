@@ -33,16 +33,25 @@ exports.getList = (req, res, next) => {
 }
 
 exports.addTask = (req, res, next ) => {
-    console.log(req.body.taskBody);
     const taskBody = req.body.taskBody
     return Task.create({ taskBody: taskBody, creationDate: Date.now(), complete: false })
     .then(newTask => {
         //console.log(newTask);
         const jsonNewTask = JSON.stringify(newTask);
+        console.log(jsonNewTask);
         res.json(jsonNewTask)
     })    
     .catch(err => { console.log(err) })
 };
+
+exports.deleteTask = (req, res, next) => {
+    const taskId = req.body.taskId;
+    Task.destroy({where: {id: taskId}})
+    .then(result => {
+        res.send();
+    })
+    .catch(err => console.log(err))
+}
 
 exports.completeTask = (req, res, next) => {
     let taskId = req.body.taskId;
