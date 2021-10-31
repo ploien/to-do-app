@@ -16,4 +16,6 @@ router.post('/completeTask', listController.completeTask);
 
 router.post('/deleteTask', listController.deleteTask);
 
+router.post('/initialLoadList', listController.initialLoadList);
+
 module.exports = router;

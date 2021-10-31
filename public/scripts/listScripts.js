@@ -1,4 +1,5 @@
 
+import {createIncompleteList} from '../modules/incompleteList.js';
 
 /************************************************** 
 * This function gets a task from the new 
@@ -39,13 +40,20 @@ async function addNewTask() {
     addNewTaskToList(parsedJson);
 }
 
-function addNewTaskToList(task) {
-    const htmlString = "<ul class=\"list_row\" id=\"" + task.id + "\"><li>" + task.taskBody + "</li>"
+function addTaskToList(task) {
+    const htmlString = "<ul class=\"list_row\" id=\"" + task.id + "\">"
+    + "<li>" + task.taskBody + "</li>"
     + "<li>" + task.creationDate + "</li>"
-     + "<li><form action=\"completeTask\" name=\"complete_task\" id=\"complete_task\" method=\"POST\"><input type=\"hidden\" name=\"taskId\" value=\"" + task.id +"\">"
-    + "<button type=\"submit\" name=\"complete_check\">Completed</button></form></li>"
-    + "<li><button name=\"delete_task_incomplete\" id=\"delete_task_incomplete\" onclick=\"deleteTask()\">Delete</button></li>"
-    + "<li class=\"hide\"><input type=\"hidden\" name=\"taskId\" id=\"taskId\" value=\"" + task.id + "\"></li>"
+    + "<li>"
+    + "<form action=\"completeTask\" name=\"complete_task\" id=\"complete_task\" method=\"POST\">"
+    + "<input type=\"hidden\" name=\"taskId\" value=\"" + task.id +"\">"
+    + "<button type=\"submit\" name=\"complete_check\">Completed</button>"
+    + "</form></li>"
+    + "<li>"
+    + "<button name=\"delete_task_incomplete\" id=\"delete_task_incomplete\" onclick=\"deleteTask(" + task.id + ")\">Delete</button>"
+    + "</li>"
+    + "<li class=\"hide\">"
+        + "<input type=\"hidden\" name=\"taskId\" id=\"taskId\" value=\"" + task.id + "\"></li>"
     + "</ul>";
 
     console.log(task.creationDate);
@@ -56,11 +64,16 @@ function addNewTaskToList(task) {
     listItem.innerHTML = htmlString;
 
     incompleteTaskList.appendChild(listItem);
-
 }
 
-async function deleteTask() {
-    const taskId = JSON.stringify({taskId: document.getElementById("taskId").value});
+async function createTaskListIncomplete(taskArray) {
+    taskArray.foreach(task => {
+        addTaskToList(task);
+    })
+}
+
+async function deleteTask(taskId) {
+    console.log("Deleted Task ID: " + taskId);
 
     const options = {
         method: 'POST',
@@ -72,10 +85,28 @@ async function deleteTask() {
 
     let response = await fetch('/deleteTask', options);
 
+    removeFromIncompleteList(taskId);
+
 
     //if(response.status == 200)
 }
 
 async function removeFromIncompleteList(taskId) {
-    let list = await document.getElementById()
+    let taskListItem = await document.getElementById(taskId + "outer");
+    taskListItem.remove();
 }
+
+async function listLoad() {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: ''
+    }
+
+    let response = await fetch('/initialListLoad', options);
+
+    console.log("new response");
+}
+ export {listLoad};

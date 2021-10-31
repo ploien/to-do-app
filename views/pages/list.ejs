@@ -2,8 +2,12 @@
 
     <body>
 
+        <div>
+            <ul name="to_do_list" id="to_do_list">
+            </ul>
+        </div>
+        
         <!--List of incomplete tasks. Displayed on page load-->
-        <%- include('./includes/incompleteList.ejs') %>
 
         <form class="date_select" action="customDate">
             <h4>Show Tasks for Date Range: </h4>
@@ -15,7 +19,6 @@
                 <label for="end_date">End Date:</label>
                 <input type="date" name="end_date">
             </div>
-
         </form>
 
         <!--Buttons to display/hide list of completed tasks-->
