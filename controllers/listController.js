@@ -14,8 +14,7 @@ exports.getList = (req, res, next) => {
             return sequelize.query(queryStringIncompleteTasks)
         })
         .then(incompleteTasks => {
-            console.log(incompleteTasks);
-            res.render('pages/list', {
+                        res.render('pages/list', {
                 incompleteTasks: incompleteTasks[0],
                 completeTasks: completeTasks[0]
             })
@@ -53,11 +52,12 @@ exports.completeTask = (req, res, next) => {
 }
 
 exports.initialLoadList = (req, res, next) => {
+    console.log('Loading List');
     const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND complete = false";
     const queryStringCompleteTasks = "SELECT * FROM tasks WHERE complete = true ORDER BY completionDate ASC";
 
     let completeTasks;
-    sequelize.query(queryStringCompleteTasks)
+    return sequelize.query(queryStringCompleteTasks)
         .then(completes => {
             completeTasks = completes;
         })
@@ -65,8 +65,8 @@ exports.initialLoadList = (req, res, next) => {
             return sequelize.query(queryStringIncompleteTasks)
         })
         .then(result => {
-            const incompleteTasks = JSON.stringify(queryStringIncompleteTasks);
-            const completeTasks = JSON.stringify(queryStringCompleteTasks);
+            const incompleteTasks = JSON.stringify(result[0]);
+            completeTasks = JSON.stringify(completeTasks[0]);
             res.json({incompleteTasks, completeTasks});
         })
         .catch(err => {console.log(err)})

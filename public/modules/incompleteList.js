@@ -2,14 +2,19 @@ function createIncompleteList(taskArray) {
 
 
     console.log("Creating List");
-    console.log(JSON.parse(taskArray));
+    console.log(typeof taskArray);
+
+    
     let incompleteTaskList = document.getElementById("to_do_list");
 
     createHeaders(incompleteTaskList);
 
+    console.log(taskArray);
+
     taskArray.forEach(task => {
         addTask(incompleteTaskList, task);
     });
+        
 
 };
 
@@ -44,8 +49,6 @@ function addTask(parentNode, task) {
     + "<li class=\"hide\">"
         + "<input type=\"hidden\" name=\"taskId\" id=\"taskId\" value=\"" + task.id + "\"></li>"
     + "</ul>";
-
-    console.log(task.creationDate);
 
     let listItem = document.createElement("li");
     listItem.id = task.id + "outer"

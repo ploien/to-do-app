@@ -1,6 +1,4 @@
-
-import {createIncompleteList} from '../modules/incompleteList.js';
-
+import {createIncompleteList} from '../modules/incompleteList.js'
 /************************************************** 
 * This function gets a task from the new 
 * task user input, and adds it to the 'to_do_list'. 
@@ -105,8 +103,11 @@ async function listLoad() {
         body: ''
     }
 
-    let response = await fetch('/initialListLoad', options);
+    let response = await fetch('/initialLoadList', options);
+    let json = await response.json();
+    const incompleteTasks = JSON.parse(json.incompleteTasks);
 
-    console.log("new response");
+    createIncompleteList(incompleteTasks);
 }
- export {listLoad};
+
+window.addEventListener('load', listLoad);
