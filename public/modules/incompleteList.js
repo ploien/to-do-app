@@ -1,24 +1,23 @@
 function createIncompleteList(taskArray) {
-
-
-    console.log("Creating List");
-    console.log(typeof taskArray);
-
     
     let incompleteTaskList = document.getElementById("to_do_list");
 
-    createHeaders(incompleteTaskList);
-
-    console.log(taskArray);
+    removeAllChildNodes(incompleteTaskList);
+    createIncompleteTaskHeaders(incompleteTaskList);
 
     taskArray.forEach(task => {
-        addTask(incompleteTaskList, task);
-    });
-        
-
+        addIncompleteTask(incompleteTaskList, task);
+    });        
 };
 
-function createHeaders(parentNode) {
+function removeAllChildNodes(parent) {
+    while (parent.firstChild) {
+        parent.removeChild(parent.firstChild);
+    }
+}
+
+//Creates the headers for the list of incomplete tasks
+function createIncompleteTaskHeaders(parentNode) {
 
     let listItem = document.createElement("li");
 
@@ -33,7 +32,8 @@ function createHeaders(parentNode) {
     parentNode.appendChild(listItem);
 };
 
-function addTask(parentNode, task) {
+//Adds one 'task' row to the parentNode element
+function addIncompleteTask(parentNode, task) {
 
     const htmlString = "<ul class=\"list_row\" id=\"" + task.id + "\">"
     + "<li>" + task.taskBody + "</li>"
@@ -44,7 +44,7 @@ function addTask(parentNode, task) {
     + "<button type=\"submit\" name=\"complete_check\">Completed</button>"
     + "</form></li>"
     + "<li>"
-    + "<button name=\"delete_task_incomplete\" id=\"delete_task_incomplete\" onclick=\"deleteTask(" + task.id + ")\">Delete</button>"
+    + "<button type=\"button\" name=\"delete_task_incomplete\" id=\"delete_task_incomplete\">Delete</button>"
     + "</li>"
     + "<li class=\"hide\">"
         + "<input type=\"hidden\" name=\"taskId\" id=\"taskId\" value=\"" + task.id + "\"></li>"
@@ -57,4 +57,4 @@ function addTask(parentNode, task) {
     parentNode.appendChild(listItem);
 };
 
-export {createIncompleteList, createHeaders, addTask};
+export {createIncompleteList, createIncompleteTaskHeaders, addIncompleteTask};

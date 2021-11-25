@@ -34,7 +34,7 @@ exports.addTask = (req, res, next ) => {
 
 exports.deleteTask = (req, res, next) => {
     
-    const id = JSON.parse(req.body.taskId);
+    const id = JSON.parse(req.body.id);
     Task.destroy({where: {id: id}})
     .then(result => {
         res.send();
