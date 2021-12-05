@@ -1,6 +1,4 @@
-<!--List of incomplete tasks. Displayed on page load-->
-<div>
-    <ul name="to_do_list" id="to_do_list">
+
         <li>
             <ul class="list_row">
                 <li>
@@ -38,7 +36,7 @@
                                 </form>
                             </li>
                             <li>
-                                <button name="delete_task_incomplete" id="delete_task_incomplete" onclick="deleteTask()">Delete</button>
+                                <button name="delete_task_incomplete" id="<%=task.id%>" onclick="deleteTask(this)">Delete</button>
                             </li>
                             <li class="hide">
                                 <input type="hidden" name="taskId" id="taskId" value="<%= task.id %>">
@@ -48,5 +46,3 @@
                     <% } %>
                         <% }) %>
                             <% } %>
-    </ul>
-</div>

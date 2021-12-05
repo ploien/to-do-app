@@ -1,4 +1,3 @@
-import {createIncompleteList} from '../modules/incompleteList.js'
 /************************************************** 
 * This function gets a task from the new 
 * task user input, and adds it to the 'to_do_list'. 
@@ -56,39 +55,51 @@ async function deleteTask(taskId) {
  * tasks for the current user. Tha data will be filtered
  * on the front-end.
  */
-async function listLoad() {
+async function loadIncompleteTasksList() {
     const options = {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'text/html'
         },
         body: ''
     }
-    let response = await fetch('/initialLoadList', options);
-    let json = await response.json();
-    const incompleteTasks = JSON.parse(json.incompleteTasks);
-
-    createIncompleteList(incompleteTasks);
-    addDeleteTaskButtonFunction();
+    let response = await fetch('/loadIncompleteTasksList', options);
+    let html = await response.text();
+    document.getElementById("to_do_list").innerHTML = html;
 }
 
-window.addEventListener('load', listLoad);
+// async function loadCompleteTasksList() {
+//     const options = {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'text/html'
+//         },
+//         body: ''
+//     }
+//     let response = await fetch('/loadCompleteTasksList', options);
+//     let html = await response.text();
+//     document.getElementById("to_do_list_complete").innerHTML = html;
+// }
+
+// function listLoad() {
+//     loadIncompleteTasksList();
+//     loadCompleteTasksList();
+// }
+
+window.addEventListener('load', loadIncompleteTasksList);
+
 document.getElementById('add_task').addEventListener('click', addNewTask);
 
-function addDeleteTaskButtonFunction() {
+// function addDeleteTaskButtonFunction() {
     
-    let deleteTaskButtons = document.getElementsByName('delete_task_incomplete');
-    console.log(deleteTaskButtons);
-    deleteTaskButtons.forEach(button => {
-        const id = button.parentElement.parentElement.id;
-        console.log(id);
-        button.onclick = () => {deleteTask(id)};
-    })
-    console.log(deleteTaskButtons);
-}
-
-
-
+//     let deleteTaskButtons = document.getElementsByName('delete_task_incomplete');
+//     console.log(deleteTaskButtons);
+//     deleteTaskButtons.forEach(button => {
+//         const id = button.parentElement.parentElement.id;
+//         button.onclick = () => {deleteTask(id)};
+//     })
+//     console.log(deleteTaskButtons);
+// }
 
 // async function removeFromIncompleteList(taskId) {
 //     let taskListItem = await document.getElementById(taskId + "outer");

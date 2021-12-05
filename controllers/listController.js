@@ -1,6 +1,13 @@
 const Task = require('../models/task');
 const sequelize = require('../util/mysqlDatabase');
 
+
+/*************************************************************
+ * Route: GETLIST (Page Load)
+ * RENDERS /list page
+ * The main page for the users task list. 
+ * Default behavior is to show tasks added in the last month
+ *************************************************************/
 exports.getList = (req, res, next) => {
 
     const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND complete = false";
@@ -22,6 +29,10 @@ exports.getList = (req, res, next) => {
         .catch(err => console.log(err))
 }
 
+/**********************************************************
+ * Route: ADDTASK (AJAX - no page reload)
+ * Adds a task to the  database and reloads the task lists
+ **********************************************************/
 exports.addTask = (req, res, next ) => {
     const taskBody = req.body.taskBody
     return Task.create({ taskBody: taskBody, creationDate: Date.now(), complete: false })
@@ -32,6 +43,11 @@ exports.addTask = (req, res, next ) => {
     .catch(err => { console.log(err) })
 };
 
+/****************************************************
+ * Route: DELETETASK (AJAX)
+ * Descrption: Deletes the selected task from
+ * the database and removes it from the users list
+ ***************************************************/
 exports.deleteTask = (req, res, next) => {
     
     const id = JSON.parse(req.body.id);
@@ -42,6 +58,10 @@ exports.deleteTask = (req, res, next) => {
     .catch(err => console.log(err))
 }
 
+/********************************************************
+ * Route: COMPLETETASK (AJAX)
+ * Descrption: Marks a task as complete in the database
+ ********************************************************/
 exports.completeTask = (req, res, next) => {
     let taskId = req.body.taskId;
     Task.update({ complete: true, completionDate: Date.now() }, { where: { id: taskId } })
@@ -51,23 +71,33 @@ exports.completeTask = (req, res, next) => {
         .catch(err => console.log(err))
 }
 
-exports.initialLoadList = (req, res, next) => {
-    console.log('Loading List');
+/********************************************************
+ * Route: INITIALLOADLIST (AJAX)
+ * Descrption: Retrieve the user tasks from database and
+ * loads two lists: Incomplete Tasks, Complete Tasks 
+ ********************************************************/
+exports.loadIncompleteTasksList = (req, res, next) => {
     const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND complete = false";
-    const queryStringCompleteTasks = "SELECT * FROM tasks WHERE complete = true ORDER BY completionDate ASC";
+    
+    return sequelize.query(queryStringIncompleteTasks)
+    .then(result => {
+        const incompleteTasks = result[0];
+        res.render('pages/partials/incompleteList', {
+            incompleteTasks: incompleteTasks,
+        })
+    })
+    .catch(err => {console.log(err)})
+}
 
-    let completeTasks;
+exports.loadCompleteTasksList = (req, res, next) => {
+    const queryStringCompleteTasks = "SELECT * FROM tasks WHERE complete";
+    
     return sequelize.query(queryStringCompleteTasks)
-        .then(completes => {
-            completeTasks = completes;
+    .then(result => {
+        const completeTask = result[0];
+        res.render('pages/partials/completeList', {
+            completeTasks: completeTasks,
         })
-        .then(result => {
-            return sequelize.query(queryStringIncompleteTasks)
-        })
-        .then(result => {
-            const incompleteTasks = JSON.stringify(result[0]);
-            completeTasks = JSON.stringify(completeTasks[0]);
-            res.json({incompleteTasks, completeTasks});
-        })
-        .catch(err => {console.log(err)})
+    })
+    .catch(err => {console.log(err)})
 }

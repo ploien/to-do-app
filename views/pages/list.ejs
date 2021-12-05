@@ -1,4 +1,4 @@
-<%- include('./includes/head.ejs') %>
+<%- include('./partials/head.ejs') %>
 
     <body>
 
@@ -33,35 +33,6 @@
 
         <!--List of completed task. Hidden on page load. Displayed/hidden on button push-->
         <div name="to_do_list_complete" id="to_do_list_complete" class="hidden">
-            <label for="to_do_list_complete" class="list_row">
-                <h3>Completed Tasks</h3>
-            </label>
-            <ul>
-                <li>
-                    <ul class="list_row">
-                        <li>
-                            <h3>Task</h3>
-                        </li>
-                        <li>
-                            <h3>Date Completed</h3>
-                        </li>
-                    </ul>
-                </li>
-                <% completeTasks.forEach(task=> { %>
-                    <% if(task.complete) { %>
-                        <li>
-                            <ul class="list_row">
-                                <li>
-                                    <%= task.taskBody %>
-                                </li>
-                                <li>
-                                    <%= task.completionDate %>
-                                </li>
-                            </ul>
-                        </li>
-                        <% } %>
-                            <% }) %>
-            </ul>
         </div>
 
         <!--Add a new task to the list of incomplete tasks-->
