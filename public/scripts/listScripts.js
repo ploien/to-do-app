@@ -31,7 +31,7 @@ async function addNewTask() {
         body: taskBody
     }
     let response = await fetch('/addTask', options);
-    listLoad();
+    loadIncompleteTasksList();
 }
 
 //Ajax request to remove a task from the database/taskslists
@@ -46,6 +46,7 @@ async function deleteTask(taskId) {
         body: id
     }
     let response = await fetch('/deleteTask', options);
+    loadIncompleteTasksList();
 }
 
 /***********
@@ -68,27 +69,33 @@ async function loadIncompleteTasksList() {
     document.getElementById("to_do_list").innerHTML = html;
 }
 
-// async function loadCompleteTasksList() {
-//     const options = {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'text/html'
-//         },
-//         body: ''
-//     }
-//     let response = await fetch('/loadCompleteTasksList', options);
-//     let html = await response.text();
-//     document.getElementById("to_do_list_complete").innerHTML = html;
-// }
+async function loadCompleteTasksList() {
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'text/html'
+        },
+        body: ''
+    }
+    let response = await fetch('/loadCompleteTasksList', options);
+    let html = await response.text();
+    document.getElementById("to_do_list_complete").innerHTML = html;
+}
 
-// function listLoad() {
-//     loadIncompleteTasksList();
-//     loadCompleteTasksList();
-// }
+async function addAddTaskButton() {
+    let addTaskButton = document.getElementById('add_task');
+    console.log(addTaskButton);
 
-window.addEventListener('load', loadIncompleteTasksList);
+    addTaskButton.addEventListener('click', addNewTask);
+}
 
-document.getElementById('add_task').addEventListener('click', addNewTask);
+function afterPAgeLoadFunctionAssignments() {
+    loadIncompleteTasksList();
+    loadCompleteTasksList();
+    addAddTaskButton();
+}
+
+window.addEventListener('load', afterPAgeLoadFunctionAssignments);
 
 // function addDeleteTaskButtonFunction() {
     

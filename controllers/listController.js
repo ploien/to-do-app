@@ -77,7 +77,7 @@ exports.completeTask = (req, res, next) => {
  * loads two lists: Incomplete Tasks, Complete Tasks 
  ********************************************************/
 exports.loadIncompleteTasksList = (req, res, next) => {
-    const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND complete = false";
+    const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 YEAR) AND complete = false";
     
     return sequelize.query(queryStringIncompleteTasks)
     .then(result => {
@@ -94,7 +94,7 @@ exports.loadCompleteTasksList = (req, res, next) => {
     
     return sequelize.query(queryStringCompleteTasks)
     .then(result => {
-        const completeTask = result[0];
+        const completeTasks = result[0];
         res.render('pages/partials/completeList', {
             completeTasks: completeTasks,
         })

@@ -36,7 +36,7 @@
                                 </form>
                             </li>
                             <li>
-                                <button name="delete_task_incomplete" id="<%=task.id%>" onclick="deleteTask(this)">Delete</button>
+                                <button name="delete_task_incomplete" id="<%=task.id%>" onclick="deleteTask('<%= task.id %>')">Delete</button>
                             </li>
                             <li class="hide">
                                 <input type="hidden" name="taskId" id="taskId" value="<%= task.id %>">
