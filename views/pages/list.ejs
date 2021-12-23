@@ -7,17 +7,24 @@
             </ul>
         </div>
 
-        <form class="date_select" action="customDate">
-            <h4>Show Tasks for Date Range: </h4>
+        <h4>Show Tasks for Date Range: </h4>
+
+        <form class="date_radio_button_options">
+            <input type="radio" name="date_range_select" id="weekRange" value="Week" onchange="getLists">Week</input>
+            <input type="radio" name="date_range_select" id="monthRange" value="Month" checked="checked" onchange="getLists">Month</input>
+            <input type="radio" name="date_range_select" id="yearRange" value="Year" onchange="getLists">Year</input>
+            <input type="radio" name="date_range_select" id="customRange" value="custom" onchange="getLists">Choose Range</input>
             <div>
                 <label for="start_date">Start Date:</label>
-                <input type="date" name="start_date">
+                <input type="date" name="start_date" id="start_date" max='<%= date %>' >
             </div>
             <div>
                 <label for="end_date">End Date:</label>
-                <input type="date" name="end_date">
+                <input type="date" name="end_date" id="end_date" max='<%= date %>'> 
             </div>
         </form>
+
+        
 
         <!--Buttons to display/hide list of completed tasks-->
         <div class="list_row">

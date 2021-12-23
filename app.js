@@ -14,6 +14,7 @@ app.use(express.static(path.join(__dirname, 'public')))
    .set('view engine', 'ejs')
    .use(express.urlencoded({ extended: false })) // For parsing the body of a POST
    .use(express.json())
+   .use(express.text())
    .use(listRoutes);
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));

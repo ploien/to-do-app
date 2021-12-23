@@ -57,13 +57,22 @@ async function deleteTask(taskId) {
  * on the front-end.
  */
 async function loadIncompleteTasksList() {
+
+    let timeFrameButtonValues = await getTimeFrame();
+    timeFrameButtonValues = JSON.stringify(timeFrameButtonValues);
+
+    let customeRange = 
+
+    console.log(timeFrameButtonValues);
+
     const options = {
         method: 'POST',
         headers: {
-            'Content-Type': 'text/html'
+            'Content-Type': 'application/json'
         },
-        body: ''
+        body: timeFrameButtonValues
     }
+
     let response = await fetch('/loadIncompleteTasksList', options);
     let html = await response.text();
     document.getElementById("to_do_list").innerHTML = html;
@@ -89,13 +98,34 @@ async function addAddTaskButton() {
     addTaskButton.addEventListener('click', addNewTask);
 }
 
-function afterPAgeLoadFunctionAssignments() {
+function getLists() {
+
+    let timeFrameButtons = document.getElementsByName("date_range_select");
+    let timeFrame;
+    timeFrameButtons.forEach(time => {
+        if (time.checked) {
+            timeFrame = time;
+        }
+    });
+
     loadIncompleteTasksList();
     loadCompleteTasksList();
     addAddTaskButton();
 }
 
-window.addEventListener('load', afterPAgeLoadFunctionAssignments);
+async function getTimeFrame() {
+    let dateRangeSelectButtonValues =document.getElementsByName("date_range_select");
+    let checkedArray = [];
+
+    //console.log(dateRangeSelectButtonValues);
+
+    dateRangeSelectButtonValues.forEach(button => {
+        checkedArray.push({value: button.value, checked: button.checked});
+    })
+
+    return checkedArray;
+}
+window.addEventListener('load', getLists);
 
 // function addDeleteTaskButtonFunction() {
     

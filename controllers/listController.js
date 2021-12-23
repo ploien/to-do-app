@@ -1,4 +1,5 @@
 const Task = require('../models/task');
+const TimeFrame = require('../models/timeFrame.js');
 const sequelize = require('../util/mysqlDatabase');
 
 
@@ -9,24 +10,11 @@ const sequelize = require('../util/mysqlDatabase');
  * Default behavior is to show tasks added in the last month
  *************************************************************/
 exports.getList = (req, res, next) => {
+    const date = new Date();
+        res.render('pages/list', {
+            date: date
+        });
 
-    const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 MONTH) AND complete = false";
-    const queryStringCompleteTasks = "SELECT * FROM tasks WHERE complete = true ORDER BY completionDate ASC";
-    let completeTasks;
-    sequelize.query(queryStringCompleteTasks)
-        .then(completes => {
-            completeTasks = completes;
-        })
-        .then(result => {
-            return sequelize.query(queryStringIncompleteTasks)
-        })
-        .then(incompleteTasks => {
-                        res.render('pages/list', {
-                incompleteTasks: incompleteTasks[0],
-                completeTasks: completeTasks[0]
-            })
-        })
-        .catch(err => console.log(err))
 }
 
 /**********************************************************
@@ -69,6 +57,7 @@ exports.completeTask = (req, res, next) => {
             res.redirect('/')
         })
         .catch(err => console.log(err))
+        
 }
 
 /********************************************************
@@ -77,9 +66,11 @@ exports.completeTask = (req, res, next) => {
  * loads two lists: Incomplete Tasks, Complete Tasks 
  ********************************************************/
 exports.loadIncompleteTasksList = (req, res, next) => {
-    const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 YEAR) AND complete = false";
+
     
+    const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 YEAR) AND complete = false";
     return sequelize.query(queryStringIncompleteTasks)
+    
     .then(result => {
         const incompleteTasks = result[0];
         res.render('pages/partials/incompleteList', {
