@@ -58,19 +58,22 @@ async function deleteTask(taskId) {
  */
 async function loadIncompleteTasksList() {
 
-    let timeFrameButtonValues = await getTimeFrame();
+    let timeFrameButtonValues = getTimeFrame();
     timeFrameButtonValues = JSON.stringify(timeFrameButtonValues);
 
-    let customeRange = 
+    //let customStart = JSON.stringify(await document.getElementById(start_date).value);
+    //let customEnd = JSON.stringify(await document.getElementById(end_date).value);
 
-    console.log(timeFrameButtonValues);
+    //console.log(customStart);
+    //console.log(customEnd);
 
     const options = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: timeFrameButtonValues
+        body: 
+            timeFrameButtonValues
     }
 
     let response = await fetch('/loadIncompleteTasksList', options);
@@ -113,7 +116,7 @@ function getLists() {
     addAddTaskButton();
 }
 
-async function getTimeFrame() {
+function getTimeFrame() {
     let dateRangeSelectButtonValues =document.getElementsByName("date_range_select");
     let checkedArray = [];
 
@@ -125,7 +128,17 @@ async function getTimeFrame() {
 
     return checkedArray;
 }
+
+function setDefaultDates() {
+
+    const today = new Date().toJSON().slice(0,10);
+    document.getElementById('start_date').value = today;
+    document.getElementById('end_date').value = today;
+
+    console.log('In \'setDefaultDate\' function');
+}
 window.addEventListener('load', getLists);
+window.addEventListener('load', setDefaultDates);
 
 // function addDeleteTaskButtonFunction() {
     
