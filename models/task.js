@@ -1,6 +1,4 @@
-const { BOOLEAN } = require('sequelize');
 const Sequelize = require('sequelize');
-
 const sequelize = require('../util/mysqlDatabase');
 
 const Task = sequelize.define('Task', {
@@ -26,8 +24,6 @@ const Task = sequelize.define('Task', {
         type: Sequelize.BOOLEAN,
         allowNull: false
     }
-
-    
 });
 
 module.exports = Task;

@@ -1,5 +1,4 @@
 const Task = require('../models/task');
-const TimeFrame = require('../models/timeFrame.js');
 const sequelize = require('../util/mysqlDatabase');
 
 
@@ -49,6 +48,8 @@ exports.deleteTask = (req, res, next) => {
 /********************************************************
  * Route: COMPLETETASK (AJAX)
  * Descrption: Marks a task as complete in the database
+ * Results in page reload because od redirect.
+ * NOTE: Should be changed to only reload list
  ********************************************************/
 exports.completeTask = (req, res, next) => {
     let taskId = req.body.taskId;
@@ -61,14 +62,18 @@ exports.completeTask = (req, res, next) => {
 }
 
 /********************************************************
- * Route: INITIALLOADLIST (AJAX)
- * Descrption: Retrieve the user tasks from database and
- * loads two lists: Incomplete Tasks, Complete Tasks 
+ * ROUTE: Load Incomplete Task List (AJAX)
+ * DESCRIPTION: Populates the list of incomplete tasks 
+ * according to the user-selected timeframe.
  ********************************************************/
-exports.loadIncompleteTasksList = (req, res, next) => {
+exports.loadIncompleteTasksList = async (req, res, next) => {
 
-    
-    const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 YEAR) AND complete = false";
+    let possibleTimeFrames = req.body
+    const timeFrame = await getTimeFrame(possibleTimeFrames);
+
+    //const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 YEAR) AND complete = false";
+    const queryStringIncompleteTasks = await queryForIncompleteTasks(timeFrame);
+
     return sequelize.query(queryStringIncompleteTasks)
     
     .then(result => {
@@ -80,6 +85,11 @@ exports.loadIncompleteTasksList = (req, res, next) => {
     .catch(err => {console.log(err)})
 }
 
+/********************************************************
+ * ROUTE: Load complete Task List (AJAX)
+ * DESCRIPTION: Populates the list of complete tasks 
+ * according to the user-selected timeframe.
+ ********************************************************/
 exports.loadCompleteTasksList = (req, res, next) => {
     const queryStringCompleteTasks = "SELECT * FROM tasks WHERE complete";
     
@@ -91,4 +101,62 @@ exports.loadCompleteTasksList = (req, res, next) => {
         })
     })
     .catch(err => {console.log(err)})
+}
+
+
+/********************************************************
+ * ROUTE: Get Time Frame 
+ * DESCRIPTION: Helper method to determine which time frame
+ * radio button the user has selected.
+ * PARAMETERS:
+ *      timeArray: array sent from client side with button information                    
+ * NOTES: The timeArray is the information of the radio buttons 
+ ********************************************************/
+async function getTimeFrame(timeArray) {
+
+    let timeFrame;
+    for(let i = 0; i < timeArray.length; i++) {
+        if (timeArray[i].checked) {
+            timeFrame = timeArray[i];
+        }
+    }       
+    return timeFrame;
+}
+
+/**********************************************************************
+ * ROUTE: Query For Incomplete Tasks
+ * DESCRIPTION: Creates the database queries for appropriate time frame
+ * PARAMETERS:
+ *      dateRangeInfo: information returned from "getTimeFrame" function                  
+ * NOTES: The timeArray is the information of the radio buttons 
+ ************************************************************************/
+async function queryForIncompleteTasks(dateRangeInfo) {
+
+    let queryString;
+    if (dateRangeInfo.value == "custom") {
+        queryString = "SELECT * FROM tasks WHERE creationDate <= " + dateRangeInfo.end + " AND creationDate >=" + dateRangeInfo.start + " AND complete = false";
+    }
+    else {
+        queryString = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 " + dateRangeInfo.value + ") AND complete = false";
+    }
+    return queryString;
+}
+
+/**********************************************************************
+ * ROUTE: Query For complete Tasks
+ * DESCRIPTION: Creates the database queries for appropriate time frame
+ * PARAMETERS:
+ *      dateRangeInfo: information returned from "getTimeFrame" function                  
+ * NOTES: The timeArray is the information of the radio buttons 
+ ************************************************************************/
+async function queryForCompleteTasks(dateRangeInfo) {
+
+    let queryString;
+    if (dateRangeInfo.value == "custom") {
+        queryString = "SELECT * FROM tasks WHERE creationDate <= " + dateRangeInfo.end + " AND creationDate >=" + dateRangeInfo.start + " AND complete = true";
+    }
+    else {
+        queryString = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 " + dateRangeInfo.value + ") AND complete = true";
+    }
+    return queryString;
 }

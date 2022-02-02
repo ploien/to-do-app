@@ -49,23 +49,19 @@ async function deleteTask(taskId) {
     loadIncompleteTasksList();
 }
 
-/***********
+/*********************************************************
  * listLoad() 
  * RETURN: Void
  * SUMMARY: Sends an FETCH Post request for all
  * tasks for the current user. Tha data will be filtered
  * on the front-end.
- */
+ *********************************************************/
 async function loadIncompleteTasksList() {
 
-    let timeFrameButtonValues = getTimeFrame();
-    timeFrameButtonValues = JSON.stringify(timeFrameButtonValues);
+    let body = getTimeFrame();
+    body = JSON.stringify(body);
 
-    //let customStart = JSON.stringify(await document.getElementById(start_date).value);
-    //let customEnd = JSON.stringify(await document.getElementById(end_date).value);
-
-    //console.log(customStart);
-    //console.log(customEnd);
+    console.log(body);
 
     const options = {
         method: 'POST',
@@ -73,7 +69,7 @@ async function loadIncompleteTasksList() {
             'Content-Type': 'application/json'
         },
         body: 
-            timeFrameButtonValues
+            body
     }
 
     let response = await fetch('/loadIncompleteTasksList', options);
@@ -102,15 +98,7 @@ async function addAddTaskButton() {
 }
 
 function getLists() {
-
-    let timeFrameButtons = document.getElementsByName("date_range_select");
-    let timeFrame;
-    timeFrameButtons.forEach(time => {
-        if (time.checked) {
-            timeFrame = time;
-        }
-    });
-
+    
     loadIncompleteTasksList();
     loadCompleteTasksList();
     addAddTaskButton();
@@ -120,10 +108,15 @@ function getTimeFrame() {
     let dateRangeSelectButtonValues =document.getElementsByName("date_range_select");
     let checkedArray = [];
 
-    //console.log(dateRangeSelectButtonValues);
+    let customStart = JSON.stringify(document.getElementById("start_date").value);
+    let customEnd = JSON.stringify(document.getElementById("end_date").value);
 
     dateRangeSelectButtonValues.forEach(button => {
+        if (button.value == "custom" ) {
+            checkedArray.push({value: button.value, checked: button.checked, start: customStart, end: customEnd});
+        } else {
         checkedArray.push({value: button.value, checked: button.checked});
+        }
     })
 
     return checkedArray;
@@ -135,10 +128,10 @@ function setDefaultDates() {
     document.getElementById('start_date').value = today;
     document.getElementById('end_date').value = today;
 
-    console.log('In \'setDefaultDate\' function');
 }
-window.addEventListener('load', getLists);
+
 window.addEventListener('load', setDefaultDates);
+window.addEventListener('load', getLists);
 
 // function addDeleteTaskButtonFunction() {
     

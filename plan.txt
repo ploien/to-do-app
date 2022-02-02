@@ -23,3 +23,20 @@ Additional Features (time permitting):
     - Ability to add a sublist to any task (nest task lists)
     - Ability to create multiple lists with a list Title 
         - A page that lists the lists
+
+1. (Decide on project) A program that allows users to sign on and make lists.
+2. (Look for similar projects). N/a
+3. (Choose your language and tools)
+    Front-end: Plain JS & CSS w/EJS for template engine
+    Back-end: 
+        Node.js
+        Express
+    Database:
+        MySQL
+4. List all features and entities
+    1. Sign-up Page
+    2. Login page
+    3. Page to select from lists
+        1. Can select for list created in a certain time frame.
+        2. Search for list using an auto-populated search bar.  
+    4. Page to create/edit/display chosen list
