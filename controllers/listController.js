@@ -8,26 +8,33 @@ const sequelize = require('../util/mysqlDatabase');
  * The main page for the users task list. 
  * Default behavior is to show tasks added in the last month
  *************************************************************/
-exports.getList = (req, res, next) => {
-    const date = new Date();
-        res.render('pages/list', {
-            date: date
+exports.getLists = (req, res, next) => {
+
+        //retrieve lists from database
+
+        res.render('pages/lists', {
+            //pass list info
         });
 
 }
 
-/**********************************************************
- * Route: ADDTASK (AJAX - no page reload)
- * Adds a task to the  database and reloads the task lists
- **********************************************************/
-exports.addTask = (req, res, next ) => {
-    const taskBody = req.body.taskBody
-    return Task.create({ taskBody: taskBody, creationDate: Date.now(), complete: false })
-    .then(newTask => {
-        const jsonNewTask = JSON.stringify(newTask);
-        res.json(jsonNewTask)
-    })    
-    .catch(err => { console.log(err) })
+//Get an indivdual list for display on a seperate page
+exports.getToDoList = (req, res, next) => {
+    //get listId from parameter
+
+    // get list info from dataBase using listId
+
+    //renders page containing the specific list
+}
+
+//Add a task to an already existing task list 
+exports.addItem = (req, res, next ) => {
+    const listId;
+    const itemText
+    //create new task
+    //add to database
+    //re-render list
+    
 };
 
 /****************************************************
@@ -37,12 +44,10 @@ exports.addTask = (req, res, next ) => {
  ***************************************************/
 exports.deleteTask = (req, res, next) => {
     
-    const id = JSON.parse(req.body.id);
-    Task.destroy({where: {id: id}})
-    .then(result => {
-        res.send();
-    })
-    .catch(err => console.log(err))
+    const itemId;
+
+    //delete item from database
+    //re-render list
 }
 
 /********************************************************
@@ -61,102 +66,14 @@ exports.completeTask = (req, res, next) => {
         
 }
 
-/********************************************************
- * ROUTE: Load Incomplete Task List (AJAX)
- * DESCRIPTION: Populates the list of incomplete tasks 
- * according to the user-selected timeframe.
- ********************************************************/
-exports.loadIncompleteTasksList = async (req, res, next) => {
+//Get list info from database (just list title/id's at this point)
+function getLists() {
+    //get user info
 
-    let possibleTimeFrames = req.body
-    const timeFrame = await getTimeFrame(possibleTimeFrames);
+    //get a list of lists and their id's
 
-    //const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 YEAR) AND complete = false";
-    const queryStringIncompleteTasks = await queryForIncompleteTasks(timeFrame);
-
-    return sequelize.query(queryStringIncompleteTasks)
-    
-    .then(result => {
-        const incompleteTasks = result[0];
-        res.render('pages/partials/incompleteList', {
-            incompleteTasks: incompleteTasks,
-        })
-    })
-    .catch(err => {console.log(err)})
-}
-
-/********************************************************
- * ROUTE: Load complete Task List (AJAX)
- * DESCRIPTION: Populates the list of complete tasks 
- * according to the user-selected timeframe.
- ********************************************************/
-exports.loadCompleteTasksList = (req, res, next) => {
-    const queryStringCompleteTasks = "SELECT * FROM tasks WHERE complete";
-    
-    return sequelize.query(queryStringCompleteTasks)
-    .then(result => {
-        const completeTasks = result[0];
-        res.render('pages/partials/completeList', {
-            completeTasks: completeTasks,
-        })
-    })
-    .catch(err => {console.log(err)})
+    return lists;
 }
 
 
-/********************************************************
- * ROUTE: Get Time Frame 
- * DESCRIPTION: Helper method to determine which time frame
- * radio button the user has selected.
- * PARAMETERS:
- *      timeArray: array sent from client side with button information                    
- * NOTES: The timeArray is the information of the radio buttons 
- ********************************************************/
-async function getTimeFrame(timeArray) {
 
-    let timeFrame;
-    for(let i = 0; i < timeArray.length; i++) {
-        if (timeArray[i].checked) {
-            timeFrame = timeArray[i];
-        }
-    }       
-    return timeFrame;
-}
-
-/**********************************************************************
- * ROUTE: Query For Incomplete Tasks
- * DESCRIPTION: Creates the database queries for appropriate time frame
- * PARAMETERS:
- *      dateRangeInfo: information returned from "getTimeFrame" function                  
- * NOTES: The timeArray is the information of the radio buttons 
- ************************************************************************/
-async function queryForIncompleteTasks(dateRangeInfo) {
-
-    let queryString;
-    if (dateRangeInfo.value == "custom") {
-        queryString = "SELECT * FROM tasks WHERE creationDate <= " + dateRangeInfo.end + " AND creationDate >=" + dateRangeInfo.start + " AND complete = false";
-    }
-    else {
-        queryString = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 " + dateRangeInfo.value + ") AND complete = false";
-    }
-    return queryString;
-}
-
-/**********************************************************************
- * ROUTE: Query For complete Tasks
- * DESCRIPTION: Creates the database queries for appropriate time frame
- * PARAMETERS:
- *      dateRangeInfo: information returned from "getTimeFrame" function                  
- * NOTES: The timeArray is the information of the radio buttons 
- ************************************************************************/
-async function queryForCompleteTasks(dateRangeInfo) {
-
-    let queryString;
-    if (dateRangeInfo.value == "custom") {
-        queryString = "SELECT * FROM tasks WHERE creationDate <= " + dateRangeInfo.end + " AND creationDate >=" + dateRangeInfo.start + " AND complete = true";
-    }
-    else {
-        queryString = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 " + dateRangeInfo.value + ") AND complete = true";
-    }
-    return queryString;
-}
