@@ -6,3 +6,16 @@
 .hide {
     display: none;
 }
+
+.list_row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    list-style: none;
+}
+
+.list_row_wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

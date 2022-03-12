@@ -15,7 +15,7 @@ const List = sequelize.define('List', {
     creationDate: {
         type: Sequelize.DATEONLY,
         allowNull: false
-    },
+    }
 })
 
 module.exports = User;

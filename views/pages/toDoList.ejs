@@ -1,0 +1,19 @@
+<%- include('../includes/head.ejs') %>
+<!--Include navBar-->
+<body>
+
+    <div id="to_do_list_wrapper" name="to_do_list_wrapper"><!--to do list will be loaded here through post request-->
+        <ul>
+            <% tasks.forEach(task => { %>
+                <li id="list_row_wrapper_<%= task.id %>" name="list_row_wrapper" class="list_row_wrapper">
+                    <ul id="list_row_<%= task.id %>" class="list_row">
+                        <li id="task_body_<%= task.id %>"><%= task.taskBody %></li>
+                        <li><button>Delete</button></li>
+                        <li><button>Edit</button></li>
+                    </ul>
+                </li>
+           <% }) %>
+        </ul>
+    </div>
+</body>
+</html>

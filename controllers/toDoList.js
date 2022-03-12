@@ -1,50 +1,40 @@
 const Task = require('../models/task');
-const sequelize = require('../util/mysqlDatabase');
 
-
-/*************************************************************
- * Route: GETLIST (Page Load)
- * RENDERS /list page
- * The main page for the users task list. 
- * Default behavior is to show tasks added in the last month
- *************************************************************/
-exports.getLists = (req, res, next) => {
-
-        //retrieve lists from database
-
-        res.render('pages/lists', {
-            //pass list info
-        });
-
-}
-
+//Add a task to an already existing task list 
 //Get an indivdual list for display on a seperate page
 exports.getToDoList = (req, res, next) => {
     //get listId from parameter
 
     // get list info from dataBase using listId
+    return Task.findAll()
+    .then(tasks => {
+        res.render('pages/toDoList', {
+            tasks: tasks
+        })
+    })
+    .catch(err => {console.log(err)})
+
 
     //renders page containing the specific list
 }
 
-//Add a task to an already existing task list 
 exports.addItem = (req, res, next ) => {
-    const listId;
-    const itemText
+    const listId = '';
+    const itemText = '';
     //create new task
     //add to database
     //re-render list
     
-};
+}
 
 /****************************************************
  * Route: DELETETASK (AJAX)
  * Descrption: Deletes the selected task from
  * the database and removes it from the users list
  ***************************************************/
-exports.deleteTask = (req, res, next) => {
+ exports.deleteItem = (req, res, next) => {
     
-    const itemId;
+    const itemId = ''
 
     //delete item from database
     //re-render list
@@ -56,7 +46,7 @@ exports.deleteTask = (req, res, next) => {
  * Results in page reload because od redirect.
  * NOTE: Should be changed to only reload list
  ********************************************************/
-exports.completeTask = (req, res, next) => {
+ exports.completeTask = (req, res, next) => {
     let taskId = req.body.taskId;
     Task.update({ complete: true, completionDate: Date.now() }, { where: { id: taskId } })
         .then(result => {
@@ -65,15 +55,3 @@ exports.completeTask = (req, res, next) => {
         .catch(err => console.log(err))
         
 }
-
-//Get list info from database (just list title/id's at this point)
-function getLists() {
-    //get user info
-
-    //get a list of lists and their id's
-
-    return lists;
-}
-
-
-

@@ -5,9 +5,8 @@ const PORT = process.env.PORT || 5000 // So we can run on heroku || (OR) localho
 const app = express();
 
 const sequelize = require('./util/mysqlDatabase');
-const listRoutes = require('./routes/list');
-
-
+const userListsRoutes = require('./routes/lists');
+const toDoListRoutes = require('./routes/toDoList')
 
 app.use(express.static(path.join(__dirname, 'public')))
    .set('views', path.join(__dirname, 'views'))
@@ -15,7 +14,9 @@ app.use(express.static(path.join(__dirname, 'public')))
    .use(express.urlencoded({ extended: false })) // For parsing the body of a POST
    .use(express.json())
    .use(express.text())
-   .use(listRoutes);
+   .use(userListsRoutes)
+   .use(toDoListRoutes);
+   
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
