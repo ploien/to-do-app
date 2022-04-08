@@ -34,7 +34,11 @@ exports.addItem = (req, res, next ) => {
  ***************************************************/
  exports.deleteItem = (req, res, next) => {
     
-    const itemId = ''
+    console.log('delete item');
+    const itemId = req.body.task_id;
+    console.log(itemId);
+
+    res.redirect('/list');
 
     //delete item from database
     //re-render list

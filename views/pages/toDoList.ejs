@@ -8,7 +8,12 @@
                 <li id="list_row_wrapper_<%= task.id %>" name="list_row_wrapper" class="list_row_wrapper">
                     <ul id="list_row_<%= task.id %>" class="list_row">
                         <li id="task_body_<%= task.id %>"><%= task.taskBody %></li>
-                        <li><button>Delete</button></li>
+                        <li>
+                            <form action="/deleteItem" id="delete_<%= task.id %>">
+                                <input type="hidden" id="task_id" value="<%= task.id %>">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </li>
                         <li><button>Edit</button></li>
                     </ul>
                 </li>

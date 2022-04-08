@@ -14,10 +14,9 @@ app.use(express.static(path.join(__dirname, 'public')))
    .use(express.urlencoded({ extended: false })) // For parsing the body of a POST
    .use(express.json())
    .use(express.text())
-   .use(userListsRoutes)
-   .use(toDoListRoutes);
+   .use(toDoListRoutes)
+   .use(userListsRoutes);
    
-
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 sequelize.sync()
