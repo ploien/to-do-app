@@ -1,42 +1,55 @@
-App Description: A To-Do list web-app that allows users to create custom to-do lists
-MVP Requirements:
-    Pages:
-        Login Page: 
-        Sign up page:
-        Task List Page:
-            -Default page shows tasks created in the last month
-            -Option to show 1 week, 1 month, 1 year, or a custom date range
-            Task List: 
-                Incomplete Tasks:
-                    - Task Description
-                    - Date created
-                    - Task completed button
-                    - Delete Task button
-                    - Edit Task button 
-                Complete Tasks:
-                    - Task Description
-                    - Date created
-                    - Date Completed
-        Error Page(s):
+Website Description/Goals/ MVP Requirements
+Description: 
+A user can create an account to create and save different lists. The home page will contain
+a list of lists as well as the option to create a new list, or delete an existing list.
+Clicking on a given list will send the user to a page that contains all the items on list.
 
-Additional Features (time permitting):
-    - Ability to add a sublist to any task (nest task lists)
-    - Ability to create multiple lists with a list Title 
-        - A page that lists the lists
+On the list page the user can add items/tasks, delete an item, or mark an item as complete.
 
-1. (Decide on project) A program that allows users to sign on and make lists.
-2. (Look for similar projects). N/a
-3. (Choose your language and tools)
-    Front-end: Plain JS & CSS w/EJS for template engine
-    Back-end: 
-        Node.js
-        Express
-    Database:
-        MySQL
-4. List all features and entities
-    1. Sign-up Page
-    2. Login page
-    3. Page to select from lists
-        1. Can select for list created in a certain time frame.
-        2. Search for list using an auto-populated search bar.  
-    4. Page to create/edit/display chosen list
+Features:
+-   User can create a list of items
+-   User can delete a list of items
+-   Items can be added to the list
+-   Items can be deleted from the list
+-   Items can be marked as complete.
+-   The user can create and account where the lists will be stored
+-   The user can change their password
+
+Pages:
+Login Page
+    email - Input
+    Password - Input
+    Forgot password - link
+
+Sign Up page
+Home page (After login)
+List View
+
+
+
+Models/Objects:
+User
+    user_id
+    Username
+    Email
+    password
+
+List
+    List_id
+    User_id
+    List name
+    Date created
+
+Item/Task
+    item_id
+    list_id
+    Description: Text
+    Complete/Incomplete: Boolean
+    Date Created: Date
+    Date Complete: Date
+
+Relations:
+User - has many - lists
+list - has one - user
+list - has many - items
+item - has one - list

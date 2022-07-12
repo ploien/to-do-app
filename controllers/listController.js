@@ -68,7 +68,7 @@ exports.completeTask = (req, res, next) => {
  ********************************************************/
 exports.loadIncompleteTasksList = async (req, res, next) => {
 
-    let possibleTimeFrames = req.body
+    let possibleTimeFrames = req.body;
     const timeFrame = await getTimeFrame(possibleTimeFrames);
 
     //const queryStringIncompleteTasks = "SELECT * FROM tasks WHERE creationDate >= DATE_SUB(NOW(), INTERVAL 1 YEAR) AND complete = false";
@@ -90,8 +90,12 @@ exports.loadIncompleteTasksList = async (req, res, next) => {
  * DESCRIPTION: Populates the list of complete tasks 
  * according to the user-selected timeframe.
  ********************************************************/
-exports.loadCompleteTasksList = (req, res, next) => {
-    const queryStringCompleteTasks = "SELECT * FROM tasks WHERE complete";
+exports.loadCompleteTasksList = async (req, res, next) => {
+
+    let possibleTimeFrames = req.body;
+    const timeFrame = await getTimeFrame(possibleTimeFrames);
+
+    const queryStringCompleteTasks = await queryForCompleteTasks(timeFrame);
     
     return sequelize.query(queryStringCompleteTasks)
     .then(result => {
