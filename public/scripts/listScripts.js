@@ -99,7 +99,7 @@ async function loadCompleteTasksList() {
     const options = {
         method: 'POST',
         headers: {
-            'Content-Type': 'text/html'
+            'Content-Type': 'application/json'
         },
         body: body
     }
