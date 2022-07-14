@@ -2,32 +2,6 @@
 //Import Statements
 import {setDefaultDates, getTimeFrame, addAddTaskButton} from './listHelperScripts.js'
 
-
-/*******************************************************
- * Attached to "Show Copmleted Tasks button", it changes
- * the display type from "none" to "inline".
- ****************************************************/
-function showComplete() {
-    let hiddenElements = document.getElementsByClassName("hidden");
-
-    for (i = 0; i < hiddenElements.length; i++) {
-        hiddenElements[i].style.display = "inline";
-    }
-}
-
-
-/*******************************************************
- * Attached to "Show Copmleted Tasks button", it changes
- * the display type from "inline" to "none".
- ****************************************************/
-function hideComplete() {
-    let hiddenElements = document.getElementsByClassName("hidden");
-
-    for (i = 0; i < hiddenElements.length; i++) {
-        hiddenElements[i].style.display = "none";
-    }
-}
-
 /***********************************************************************
  * This function is fired by the "Add New Task" button, adds a new task
  * to the database, and realods the list of incomplete items.
