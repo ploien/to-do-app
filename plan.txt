@@ -1,3 +1,6 @@
+Current to-do list:
+Add User object to project (Create, Integrate into lists; i.e. base lists on specific users)
+
 Website Description/Goals/ MVP Requirements
 Description: 
 A user can create an account to create and save different lists. The home page will contain
@@ -30,8 +33,6 @@ List View
 Models/Objects:
 User
     user_id
-    Username
-    Email
     password
 
 List

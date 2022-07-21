@@ -1,4 +1,3 @@
-
 //Import Statements
 import {setDefaultDates, getTimeFrame, addAddTaskButton} from './listHelperScripts.js'
 
@@ -96,4 +95,4 @@ function getLists() {
 window.addEventListener('load', setDefaultDates);
 window.addEventListener('load', getLists);
 
-export {getLists, addNewTask};
+export {addNewTask, getLists};
