@@ -37,7 +37,6 @@
                             </li>
                             <li>
                                 <button name="delete_task_incomplete" id="<%=task.id%>">Delete</button>
-                                <script>document.getElementById("<%=task.id%>").addEventListener('click', deleteTask("<%=task.id%>"));</script>
                             </li>
                             <li class="hide">
                                 <input type="hidden" name="taskId" id="taskId" value="<%= task.id %>">

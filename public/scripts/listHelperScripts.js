@@ -1,4 +1,4 @@
-import { getLists, addNewTask } from "./listScripts.js";
+import { getLists, addNewTask, deleteTask } from "./listScripts.js";
 
 /*******************************************************
  * Attached to "Show Copmleted Tasks button", it changes
@@ -36,6 +36,15 @@ function hideComplete() {
     addTaskButton.addEventListener('click', addNewTask);
 }
 
+function addDeleteTaskButtons() {
+    console.log("in delete button method");
+    let deleteButtons = document.getElementsByName("delete_task_incomplete");
+    deleteButtons.forEach(button => {
+        console.log("Adding delete button event listener");
+        button.addEventListener('click', deleteTask(button.id));
+    })
+}
+
 
 /**********************************************************************
  * Sets the custome date selection fields to today's date as a default
@@ -47,7 +56,6 @@ function hideComplete() {
     document.getElementById('end_date').value = today;
 
 }
-
 
 /*****************************************************************
  * Checks for and returns the timeFrame selected by the user in 
@@ -81,8 +89,9 @@ timeRange_radio_buttons.forEach(button =>
     {
         button.addEventListener('click', getLists);
     });
+
 showCompleteButton.addEventListener('click', showComplete);
 hideCompleteButton.addEventListener('click', hideComplete);
 
 
-export {setDefaultDates, getTimeFrame, addAddTaskButton};
+export {setDefaultDates, getTimeFrame, addAddTaskButton, addDeleteTaskButtons};

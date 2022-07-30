@@ -1,5 +1,5 @@
 //Import Statements
-import {setDefaultDates, getTimeFrame, addAddTaskButton} from './listHelperScripts.js'
+import {setDefaultDates, getTimeFrame, addAddTaskButton, addDeleteTaskButtons} from './listHelperScripts.js'
 
 /***********************************************************************
  * This function is fired by the "Add New Task" button, adds a new task
@@ -43,9 +43,9 @@ async function deleteTask(taskId) {
  *******************************************************************/
 async function loadIncompleteTasksList() {
 
+   
     let body = getTimeFrame();
     body = JSON.stringify(body);
-
     const options = {
         method: 'POST',
         headers: {
@@ -87,12 +87,17 @@ async function loadCompleteTasksList() {
  ****************************************************************/
 function getLists() {
                                                                           
-    loadIncompleteTasksList(); 
-    loadCompleteTasksList();
-    addAddTaskButton();
+    loadIncompleteTasksList().then(
+        loadCompleteTasksList()
+    ).then (
+        addAddTaskButton()
+    ).then (
+    addDeleteTaskButtons()
+    )
+    console.log("loading lists");
 }
 
 window.addEventListener('load', setDefaultDates);
 window.addEventListener('load', getLists);
 
-export {addNewTask, getLists};
+export {addNewTask, getLists, deleteTask};
